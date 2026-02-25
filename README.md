@@ -1,9 +1,8 @@
 <div align="center">
 
 # **Aplio**
-### Your AI-Powered Job Search Companion
 
-*Search real jobs. Analyze your CV. Generate tailored cover letters. Land more interviews.*
+### The job search app I built because every other one sucked.
 
 <br/>
 
@@ -14,134 +13,114 @@
 [![Adzuna](https://img.shields.io/badge/Adzuna_API-Jobs-2563EB?style=for-the-badge)](https://developer.adzuna.com/)
 [![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
 
-<br/>
-
-> **78% of resumes never reach a human.** Aplio levels the playing field —
-> using the same AI that companies use to screen candidates, now working *for you*.
-
-<br/>
-
-[🚀 Live Demo](#) · [📖 Docs](#) · [🐛 Report a Bug](../../issues) · [💡 Request a Feature](../../issues)
-
 ---
 
 </div>
 
 <br/>
 
-## ✦ What is Aplio?
+## The honest pitch
 
-Aplio is a full-stack job search application that combines **live job listings** with **Claude AI** to help you apply smarter — not harder.
+I looked everywhere for a single app that could search real jobs, analyze my CV against them, generate cover letters, and rewrite my resume — all in one place. Couldn't find one. The ones that came close wanted my money *and* my personal data, with zero transparency about what happens behind the scenes. Cool. Very trustworthy. Definitely not selling my info to someone.
 
-Instead of sending the same CV to 50 jobs and hoping for the best, Aplio tells you *exactly* how well you fit each role, rewrites your CV with the right keywords, and generates a cover letter in seconds — all tailored to the specific job you're applying for.
+So I built my own. **Aplio is fully open source.** Every line of code is right here. No mystery backend harvesting your data. No "trust us bro" privacy policy. You can literally read the source code and see that your CV gets processed in memory and then thrown away like my social life during development.
 
-<br/>
+If you want to install it locally and run it yourself — genuinely, good luck and enjoy. It's yours. Fork it, break it, make it better.
 
-## ✦ Features
-
-<table>
-<tr>
-<td width="50%">
-
-### 🔍 Live Job Search
-- **50+ real listings** per query via Adzuna API
-- Filter by **Remote / Hybrid / On-site**
-- Filter by **Junior / Mid / Senior**
-- Filter by **minimum salary**
-- Smart fallback to sample jobs when offline
-- Favorites saved across sessions
-
-</td>
-<td width="50%">
-
-### 🤖 AI CV Analysis
-- **Match Score (0–100)** for any job
-- **Strengths & Gaps** breakdown
-- **Interview Probability** — Low / Medium / High
-- **Key thing to mention** in your application
-- **Likely interview questions** to prep for
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### ✍️ Cover Letter Generator
-- Tailored to your CV + the job description
-- Choose your **tone**: Professional, Friendly, or Direct
-- Copy to clipboard or **download as .txt**
-- Ready to send in under 30 seconds
-
-</td>
-<td width="50%">
-
-### 📄 Adaptive CV Rewriter
-- AI rewrites your CV for the specific role
-- Reorders sections to **lead with what matters**
-- Mirrors **ATS keywords** from the job description
-- `[CHANGED]` markers highlight every edit
-
-</td>
-</tr>
-</table>
+If you don't want to deal with that, I also put it in the cloud because I'm a nice person. **But** — and this is important — running Claude AI costs actual money. Every time you analyze a CV, that's my wallet crying. So if you're using the hosted version for free, maybe don't want me to starve, because if I starve, this app dies, and then *you* don't have an app to help you not starve either. It's a whole ecosystem. We're in this together.
 
 <br/>
 
-## ✦ Tech Stack
+## What it actually does
 
-| Layer | Technology | Why |
-|-------|-----------|-----|
-| **Framework** | React 19 | Latest concurrent features |
-| **Build** | Vite 8 | Instant HMR, blazing fast builds |
-| **Styling** | Tailwind CSS 4 + custom tokens | Utility-first with design system |
-| **Routing** | React Router 7 | File-based, modern API |
-| **Animations** | Framer Motion | Smooth, physics-based UI |
-| **AI Engine** | Claude Sonnet 4 (Anthropic) | Best-in-class reasoning + JSON output |
-| **Job Data** | Adzuna API | 10M+ live listings globally |
-| **PDF Export** | jsPDF + html2canvas | Client-side, no server needed |
-| **Typography** | Clash Display + Cabinet Grotesk | Distinctive, readable |
+**You search for jobs. Real ones.** Aplio pulls 50+ live listings from the Adzuna API. Not some stale database from 2019 — actual jobs that actual companies posted.
+
+**Then the AI kicks in.** Paste your CV, click a job, and Claude will:
+
+- Give you a **match score from 0 to 100** — how well you actually fit the role
+- Break down your **strengths and gaps** — what you're nailing and what's missing
+- Predict your **interview probability** — Low, Medium, or High
+- Tell you the **one key thing to mention** in your application
+- Generate **likely interview questions** so you can prep instead of panic
+
+**Need a cover letter?** Done in 30 seconds. Pick a tone — Professional, Friendly, or Direct — and it writes one tailored to your CV and the specific job. Copy it, download it, send it.
+
+**Need your CV rewritten?** The AI rewrites it for the specific role you're applying to. It reorders sections, mirrors ATS keywords from the job description, and marks every change with `[CHANGED]` so you can see exactly what it did. No black box. No "we improved your resume" with zero explanation.
 
 <br/>
 
-## ✦ Getting Started
+## Features at a glance
 
-### Prerequisites
+| Feature | What it does |
+|---------|-------------|
+| **Live Job Search** | 50+ real listings per search, filter by remote/hybrid/on-site, experience level, and minimum salary |
+| **AI CV Analysis** | Match score, strengths, gaps, interview probability, predicted questions |
+| **Cover Letter Generator** | Tailored to your CV + the job, with tone selection, copy & download |
+| **CV Rewriter** | ATS-optimized rewrite with highlighted changes and PDF export |
+| **Favorites** | Save jobs across sessions, synced to your account or localStorage |
+| **Application Tracker** | Kanban-style pipeline — Applied, Interview, Offer, Rejected *(in progress)* |
+| **Auth** | Register/login, your data follows you across devices |
+
+<br/>
+
+## Tech stack (for the nerds)
+
+| What | Why |
+|------|-----|
+| React 19 | Because I like living on the edge |
+| Vite 8 | Hot reload so fast it finishes before you save |
+| Tailwind CSS 4 | Writing CSS by hand is a punishment, not a skill |
+| Framer Motion | Makes everything feel smooth and expensive |
+| Claude Sonnet 4 | The brain behind all the AI stuff — best reasoning model I could find |
+| Adzuna API | 10M+ live job listings globally, free tier is generous |
+| Express 5 | Backend that proxies everything so your API keys stay safe |
+| PostgreSQL | Your data has to live somewhere. This is somewhere reliable |
+| jsPDF + html2canvas | PDF export that happens entirely in your browser |
+
+<br/>
+
+## Running it yourself
+
+### You'll need
 
 - **Node.js** 18+ and **npm**
-- [Adzuna API](https://developer.adzuna.com/) account — free tier works perfectly
-- [Anthropic API](https://console.anthropic.com/) key — pay-per-use, ~$0.02 per analysis
+- An [Adzuna API](https://developer.adzuna.com/) account (free tier is plenty)
+- An [Anthropic API](https://console.anthropic.com/) key (pay-per-use, ~$0.02 per analysis — you'll survive)
+- PostgreSQL running somewhere (local or cloud, doesn't matter)
 
-### Installation
+### Setup
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/your-username/aplio.git
-cd aplio
+# Clone it
+git clone https://github.com/c-dinca/Aplio.git
+cd Aplio
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Set up environment variables
+# Set up your environment
 cp .env.example .env
 ```
 
 Open `.env` and add your keys:
 
 ```env
-VITE_ADZUNA_APP_ID=your_app_id_here
-VITE_ADZUNA_APP_KEY=your_app_key_here
-VITE_ANTHROPIC_API_KEY=your_claude_api_key_here
+VITE_ADZUNA_APP_ID=your_app_id
+VITE_ADZUNA_APP_KEY=your_app_key
+ANTHROPIC_API_KEY=your_claude_api_key
+JWT_SECRET=literally_any_random_string
+DATABASE_URL=postgresql://user:pass@localhost:5432/aplio
 ```
 
-### Run locally
+### Run it
 
 ```bash
-npm run dev
-# → http://localhost:5173
+npm run dev:all
+# Frontend → http://localhost:5173
+# Backend  → http://localhost:3001
 ```
 
-> **Security note:** The Vite dev server proxies all Claude API calls through `/api/claude`.
-> Your API key is injected at the proxy level and **never sent to the browser**.
+> **Your API key never touches the browser.** All Claude calls go through the Express backend. Your secrets are safe. Pinky promise backed by actual code you can read.
 
 ### Build for production
 
@@ -152,143 +131,96 @@ npm run preview
 
 <br/>
 
-## ✦ Project Structure
+## How it works (the simple version)
 
 ```
-aplio/
-├── public/                      # Static assets
-├── src/
-│   ├── components/
-│   │   ├── AiCoachPanel.jsx     # Match score, strengths, gaps, interview Q's
-│   │   ├── BottomNav.jsx        # Mobile navigation bar
-│   │   ├── CoverLetterModal.jsx # Cover letter generator with tone selector
-│   │   ├── CvEditor.jsx         # CV editor with [CHANGED] diff view
-│   │   ├── CvModal.jsx          # CV paste / input modal
-│   │   ├── Header.jsx           # Glassmorphism header
-│   │   ├── JobCard.jsx          # Job listing card
-│   │   ├── JobDetailPanel.jsx   # Right panel with AI tabs
-│   │   ├── JobList.jsx          # Scrollable results list
-│   │   ├── SearchBar.jsx        # Search input + filters
-│   │   └── Toast.jsx            # Toast notification system
-│   ├── hooks/
-│   │   ├── useClaude.js         # Claude AI integration
-│   │   └── useJobs.js           # Adzuna job fetching
-│   ├── pages/
-│   │   ├── HomePage.jsx         # Main search + results
-│   │   ├── TrackerPage.jsx      # Application tracker (coming soon)
-│   │   └── CvPage.jsx           # CV manager (coming soon)
-│   ├── styles/
-│   │   └── globals.css          # Design tokens + base styles
-│   ├── utils/
-│   │   └── apiProxy.js          # API endpoint config
-│   ├── App.jsx                  # Root + routing
-│   └── main.jsx                 # Entry point
-├── .env.example
-├── vite.config.js               # Vite + proxy config
-└── package.json
+You type a job title
+        ↓
+Adzuna returns 50+ real listings
+        ↓
+You pick a job and paste your CV
+        ↓
+Claude reads both and does the thinking
+        ↓
+You get: Match Score · Strengths · Gaps · Interview Probability · Questions
+        ↓
+You generate a cover letter (30 seconds)
+        ↓
+You get your CV rewritten for that specific role
+        ↓
+You apply like someone who actually prepared
 ```
 
 <br/>
 
-## ✦ How It Works
+## Security — because I'm not about to be *that* developer
 
-```
-User types a job title
-        ↓
-Adzuna API returns 50 live listings
-        ↓
-User selects a job + pastes their CV
-        ↓
-Claude analyzes CV vs. job description
-        ↓
-Returns: Match Score · Strengths · Gaps
-         Interview Probability · Questions
-        ↓
-User generates a Cover Letter (30s)
-        ↓
-User requests CV Rewrite (ATS-optimized)
-        ↓
-Apply with confidence ✓
-```
+| Concern | How it's handled |
+|---------|-----------------|
+| API keys | Server-side only. Never in the browser bundle. Never. |
+| Your CV | Processed in memory, then discarded. Not stored, not logged, not sold |
+| Passwords | Hashed with bcrypt (12 rounds). I literally cannot read your password |
+| Auth tokens | JWT with 30-day expiry. Stored in localStorage, not cookies |
+| External calls | Everything goes through the backend proxy. No direct browser-to-API calls |
 
 <br/>
 
-## ✦ Security
+## Self-hosting costs (it's cheaper than your coffee habit)
 
-| Concern | How Aplio handles it |
-|---------|---------------------|
-| API key exposure | Keys live server-side only — never in the browser bundle |
-| Sensitive data | No CV content is stored — processed in memory, then discarded |
-| LocalStorage | Only job results and favorites — no personal data |
-| CORS | All external calls go through the Vite proxy |
-
-<br/>
-
-## ✦ Pricing
-
-| Plan | Price | What you get |
-|------|-------|--------------|
-| **Free** | $0 / month | 5 CV analyses · 2 cover letters · Unlimited job search |
-| **Pro** | $12 / month · $99 / year | Unlimited everything · CV rewriting · PDF export · Priority support |
-| **Lifetime** | $79 one-time | All Pro features forever · All future updates included |
-
-<br/>
-
-## ✦ Roadmap
-
-- [x] Live job search with filters
-- [x] AI CV analysis (score + gaps + questions)
-- [x] AI cover letter generator with tone selector
-- [x] AI CV rewriter with ATS optimization
-- [x] Favorites & LocalStorage persistence
-- [ ] **Application Tracker** — kanban board for your pipeline
-- [ ] **CV Manager** — multiple CV versions, switch per role
-- [ ] **PDF Export** — polished formatted CV download
-- [ ] **Browser Extension** — analyze jobs directly on LinkedIn
-- [ ] **Authentication** — sync your data across devices
-
-<br/>
-
-## ✦ Self-Hosting Cost Estimate
-
-Running Aplio yourself is extremely affordable:
-
-| Item | Estimated Cost |
-|------|---------------|
+| Item | Cost |
+|------|------|
 | Claude API — per CV analysis | ~$0.02 |
 | Claude API — per cover letter | ~$0.01 |
 | Claude API — per CV rewrite | ~$0.03 |
 | Adzuna API (free tier) | $0 |
-| Hosting (Vercel / Netlify free tier) | $0 |
-| **100 active users / month total** | **≈ $20 – $40** |
+| Hosting (Vercel / Netlify / whatever) | $0 |
+| **100 users / month** | **~$20 – $40 total** |
+
+You will spend more on energy drinks in a week than running this app for a month. Priorities.
 
 <br/>
 
-## ✦ Contributing
+## Roadmap
 
-All contributions are welcome — from fixing typos to building full features.
+- [x] Live job search with filters
+- [x] AI CV analysis — score, gaps, interview questions
+- [x] AI cover letter generator with tone selector
+- [x] AI CV rewriter with ATS optimization
+- [x] Favorites & persistence
+- [x] User authentication
+- [ ] **Application Tracker** — full kanban board for your job pipeline
+- [ ] **CV Manager** — multiple CV versions, switch per role
+- [ ] **PDF Export** — polished formatted CV download
+- [ ] **Browser Extension** — analyze jobs directly on LinkedIn
+- [ ] Whatever else makes sense when I get there
+
+<br/>
+
+## Contributing
+
+Want to help? Genuinely welcome. Whether it's fixing a typo or building a whole feature — the door's open.
 
 ```bash
-# 1. Fork the repo and clone it
-git clone https://github.com/your-username/aplio.git
+# Fork it, clone it
+git clone https://github.com/your-username/Aplio.git
 
-# 2. Create a feature branch
-git checkout -b feature/your-amazing-feature
+# Make a branch
+git checkout -b feature/your-thing
 
-# 3. Make your changes, commit with a clear message
-git commit -m "feat: add amazing feature"
+# Do your thing, commit it
+git commit -m "feat: your thing"
 
-# 4. Push and open a Pull Request
-git push origin feature/your-amazing-feature
+# Push and open a PR
+git push origin feature/your-thing
 ```
 
-Please follow the existing code style and open an issue first for major changes.
+For big changes, open an issue first so we can talk about it. For small fixes, just send the PR. I'm not going to gatekeep a typo fix.
 
 <br/>
 
-## ✦ License
+## License
 
-Distributed under the **MIT License** — see [`LICENSE`](LICENSE) for details.
+MIT. Do whatever you want with it. Seriously. See [`LICENSE`](LICENSE).
 
 <br/>
 
@@ -296,12 +228,10 @@ Distributed under the **MIT License** — see [`LICENSE`](LICENSE) for details.
 
 <div align="center">
 
-**Aplio** — Built with ❤️ and a lot of Claude API calls.
+**Aplio** — Born out of frustration, built with Claude API calls and questionable amounts of caffeine.
 
-*If this helped you land a job or an interview — drop a ⭐ It means a lot.*
+*If this helped you land a job or even just an interview — a star would genuinely make my day.*
 
-<br/>
-
-[🐦 Twitter](#) · [💼 LinkedIn](#) · [🌐 aplio.app](#)
+[Report a Bug](../../issues) · [Request a Feature](../../issues)
 
 </div>
