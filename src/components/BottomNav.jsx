@@ -1,9 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const TABS = [
-  { label: 'Jobs',    icon: '🔍', path: '/'        },
-  { label: 'CV',      icon: '📄', path: '/cv'       },
-  { label: 'Tracker', icon: '📋', path: '/tracker'  },
+  { label: 'Jobs',      icon: '🔍', path: '/'          },
+  { label: 'Favorites', icon: '⭐', path: '/favorites'  },
+  { label: 'Tracker',   icon: '📋', path: '/tracker'    },
 ]
 
 export default function BottomNav() {
@@ -12,16 +12,18 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="glass flex md:hidden"
+      className="mobile-only"
       style={{
         position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
         zIndex: 100,
-        height: 64,
+        height: 68,
+        display: 'flex',
         alignItems: 'stretch',
-        borderRadius: 0,
+        background: 'var(--surface)',
+        borderTop: '1px solid var(--border)',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
@@ -37,18 +39,18 @@ export default function BottomNav() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 3,
+              gap: 5,
               background: 'none',
               border: 'none',
               borderTop: isActive
-                ? '2px solid var(--blue-primary)'
-                : '2px solid transparent',
-              color: isActive ? 'var(--blue-primary)' : 'var(--text-secondary)',
-              fontFamily: 'Plus Jakarta Sans',
-              fontSize: 10,
-              fontWeight: isActive ? 600 : 400,
+                ? '3px solid var(--primary)'
+                : '3px solid transparent',
+              color: isActive ? 'var(--primary)' : 'var(--text-muted)',
+              fontFamily: 'var(--font-body)',
+              fontSize: 11,
+              fontWeight: isActive ? 700 : 500,
               cursor: 'pointer',
-              transition: 'color 0.15s ease',
+              transition: 'all 0.15s ease',
             }}
           >
             <span style={{ fontSize: 20, lineHeight: 1 }}>{tab.icon}</span>

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 export default function AuthModal({ onClose }) {
   const { login, register } = useAuth()
 
-  const [mode,     setMode]     = useState('login') // 'login' | 'register'
+  const [mode,     setMode]     = useState('login')
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [name,     setName]     = useState('')
@@ -15,54 +15,48 @@ export default function AuthModal({ onClose }) {
     e.preventDefault()
     setError('')
     setLoading(true)
-
     try {
-      if (mode === 'register') {
-        await register(email, password, name)
-      } else {
-        await login(email, password)
-      }
+      if (mode === 'register') await register(email, password, name)
+      else await login(email, password)
       onClose()
     } catch (err) {
       setError(err.message)
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   return (
     <div
-      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
       style={{
         position: 'fixed', inset: 0, zIndex: 200,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 20,
-        background: 'rgba(15,23,42,0.4)',
+        background: 'rgba(15,22,41,0.4)',
         backdropFilter: 'blur(4px)',
-        WebkitBackdropFilter: 'blur(4px)',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
           width: '100%', maxWidth: 420,
-          padding: 28,
-          background: '#fff',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border-light)',
+          padding: 32,
+          background: 'var(--surface)',
+          borderRadius: 'var(--r-xl)',
+          border: '1px solid var(--border)',
           boxShadow: 'var(--shadow-lg)',
         }}
       >
         <h2 style={{
-          fontSize: 20, fontWeight: 700,
-          color: 'var(--text-primary)',
-          margin: '0 0 4px',
+          fontFamily: 'var(--font-display)',
+          fontSize: '1.3rem', fontWeight: 700,
+          color: 'var(--text-head)',
+          margin: '0 0 6px',
         }}>
           {mode === 'login' ? 'Welcome back' : 'Create account'}
         </h2>
         <p style={{
-          fontSize: 13, color: 'var(--text-secondary)',
-          margin: '0 0 20px', lineHeight: 1.5,
+          fontSize: '0.85rem', color: 'var(--text-muted)',
+          margin: '0 0 24px', lineHeight: 1.5,
         }}>
           {mode === 'login'
             ? 'Sign in to access your saved CV and favorites.'
@@ -72,10 +66,10 @@ export default function AuthModal({ onClose }) {
         {error && (
           <div style={{
             padding: '10px 14px', marginBottom: 16,
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.2)',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: 13, color: '#dc2626',
+            background: 'var(--red-50)',
+            border: '1px solid var(--red-border)',
+            borderRadius: 'var(--r-sm)',
+            fontSize: '0.82rem', color: 'var(--red-500)',
           }}>
             {error}
           </div>
@@ -83,41 +77,22 @@ export default function AuthModal({ onClose }) {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {mode === 'register' && (
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
+            <input type="text" placeholder="Name" value={name}
               onChange={e => setName(e.target.value)}
-              style={inputStyle}
-            />
+              style={inputStyle} />
           )}
+          <input type="email" placeholder="Email" value={email}
+            onChange={e => setEmail(e.target.value)} required
+            style={inputStyle} />
+          <input type="password" placeholder="Password (min 6 characters)" value={password}
+            onChange={e => setPassword(e.target.value)} required minLength={6}
+            style={inputStyle} />
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-            style={inputStyle}
-          />
-
-          <input
-            type="password"
-            placeholder="Password (min 6 characters)"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            minLength={6}
-            style={inputStyle}
-          />
-
-          <button
-            type="submit"
-            className="btn-primary"
+          <button type="submit" className="btn btn-lg btn-primary"
             disabled={loading}
             style={{
-              width: '100%', padding: '12px 0',
-              fontSize: 14, marginTop: 4,
+              width: '100%', justifyContent: 'center',
+              marginTop: 4,
               opacity: loading ? 0.7 : 1,
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
@@ -129,34 +104,26 @@ export default function AuthModal({ onClose }) {
         </form>
 
         <div style={{
-          textAlign: 'center', marginTop: 16,
-          fontSize: 13, color: 'var(--text-secondary)',
+          textAlign: 'center', marginTop: 18,
+          fontSize: '0.82rem', color: 'var(--text-muted)',
         }}>
           {mode === 'login' ? (
             <>
               Don't have an account?{' '}
-              <button
-                onClick={() => { setMode('register'); setError('') }}
-                style={{
-                  background: 'none', border: 'none', padding: 0,
-                  color: 'var(--blue-primary)', fontWeight: 600,
-                  cursor: 'pointer', fontSize: 13,
-                }}
-              >
+              <button onClick={() => { setMode('register'); setError('') }}
+                style={{ background: 'none', border: 'none', padding: 0,
+                  color: 'var(--primary)', fontWeight: 700, cursor: 'pointer',
+                  fontSize: '0.82rem', fontFamily: 'var(--font-body)' }}>
                 Sign Up
               </button>
             </>
           ) : (
             <>
               Already have an account?{' '}
-              <button
-                onClick={() => { setMode('login'); setError('') }}
-                style={{
-                  background: 'none', border: 'none', padding: 0,
-                  color: 'var(--blue-primary)', fontWeight: 600,
-                  cursor: 'pointer', fontSize: 13,
-                }}
-              >
+              <button onClick={() => { setMode('login'); setError('') }}
+                style={{ background: 'none', border: 'none', padding: 0,
+                  color: 'var(--primary)', fontWeight: 700, cursor: 'pointer',
+                  fontSize: '0.82rem', fontFamily: 'var(--font-body)' }}>
                 Sign In
               </button>
             </>
@@ -169,12 +136,13 @@ export default function AuthModal({ onClose }) {
 
 const inputStyle = {
   width: '100%',
-  padding: '11px 14px',
-  fontSize: 14,
-  background: '#FAFBFD',
-  border: '1px solid var(--border-light)',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--text-primary)',
+  padding: '12px 16px',
+  fontSize: '0.9rem',
+  fontFamily: 'var(--font-body)',
+  background: 'var(--gray-100)',
+  border: '1.5px solid var(--border)',
+  borderRadius: 'var(--r-md)',
+  color: 'var(--text-head)',
   outline: 'none',
   boxSizing: 'border-box',
   transition: 'border-color 0.15s ease',

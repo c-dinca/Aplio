@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install tailwindcss @tailwindcss/vite framer-motion @fontsource/plus-jakarta-sans 2>&1)",
+      "Bash(npx vite build 2>&1)",
+      "Bash(npm install react-router-dom 2>&1)",
+      "Bash(npm install jspdf html2canvas 2>&1 | tail -5)",
+      "Bash(npm run build 2>&1)"
+    ]
+  }
+}

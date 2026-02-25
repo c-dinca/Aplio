@@ -10,99 +10,72 @@ export default function CoverLetterModal({ job, cvText, onClose }) {
   const [copied, setCopied] = useState(false)
 
   const generate = async (t = tone) => {
-    try {
-      const text = await generateCoverLetter(job, cvText, t.toLowerCase())
-      setLetter(text)
-    } catch {
-      // error surfaced via useClaude.error
-    }
+    try { setLetter(await generateCoverLetter(job, cvText, t.toLowerCase())) } catch {}
   }
 
-  // Auto-generate on open
   useEffect(() => {
     if (job && cvText) generate()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleToneChange = (t) => {
-    setTone(t)
-    generate(t)
-  }
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(letter)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const handleDownload = () => {
-    const blob = new Blob([letter], { type: 'text/plain' })
-    const url  = URL.createObjectURL(blob)
-    const a    = document.createElement('a')
-    a.href     = url
-    const slug = job?.title?.replace(/[^a-z0-9]/gi, '_').toLowerCase() ?? 'job'
-    a.download = `cover_letter_${slug}.txt`
-    a.click()
-    URL.revokeObjectURL(url)
-  }
+  }, [])
 
   return (
     <div
-      onClick={onClose}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
       style={{
         position: 'fixed', inset: 0, zIndex: 300,
-        background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(4px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 20,
+        background: 'rgba(15,22,41,0.4)',
+        backdropFilter: 'blur(4px)',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          width: '100%', maxWidth: 560,
-          borderRadius: 'var(--radius-lg)', padding: 24,
-          display: 'flex', flexDirection: 'column', gap: 16,
-          maxHeight: '90vh', overflowY: 'auto',
-          background: '#fff',
-          border: '1px solid var(--border-light)',
+          width: '100%', maxWidth: 580,
+          padding: 28,
+          background: 'var(--surface)',
+          borderRadius: 'var(--r-xl)',
+          border: '1px solid var(--border)',
           boxShadow: 'var(--shadow-lg)',
+          display: 'flex', flexDirection: 'column', gap: 16,
+          maxHeight: '90vh', overflow: 'hidden',
         }}
       >
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
-              Cover Letter
-            </div>
-            <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 3 }}>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '1.1rem', fontWeight: 700,
+              color: 'var(--text-head)',
+            }}>Cover Letter</div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 3 }}>
               {job?.title} · {job?.company}
             </div>
           </div>
           <button
-            className="btn-secondary"
             onClick={onClose}
             style={{
-              width: 32, height: 32, flexShrink: 0, padding: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 18, color: 'var(--text-secondary)',
+              width: 32, height: 32, display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+              background: 'var(--gray-100)', border: '1px solid var(--border)',
+              borderRadius: 'var(--r-sm)', cursor: 'pointer',
+              fontSize: 18, color: 'var(--text-muted)',
             }}
-          >
-            ×
-          </button>
+          >×</button>
         </div>
 
-        {/* Tone selector */}
-        <div style={{ display: 'flex', gap: 6 }}>
+        {/* Tone buttons */}
+        <div style={{ display: 'flex', gap: 8 }}>
           {TONES.map(t => (
             <button
               key={t}
-              onClick={() => handleToneChange(t)}
+              onClick={() => { setTone(t); generate(t) }}
               disabled={loading}
-              className={tone === t ? 'btn-primary' : 'btn-secondary'}
+              className={`btn btn-sm ${tone === t ? 'btn-primary' : 'btn-outline-gray'}`}
               style={{
-                fontSize: 12, padding: '6px 14px',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.7 : 1,
-                borderRadius: 20,
               }}
             >
               {t}
@@ -111,22 +84,22 @@ export default function CoverLetterModal({ job, cvText, onClose }) {
         </div>
 
         {/* Textarea */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, minHeight: 0 }}>
           {loading && (
             <div style={{
               position: 'absolute', inset: 0, zIndex: 5,
-              background: 'rgba(255,255,255,0.85)',
-              borderRadius: 'var(--radius-sm)',
+              background: 'rgba(255,255,255,0.8)',
+              borderRadius: 'var(--r-md)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
             }}>
               <div style={{
-                width: 20, height: 20,
-                border: '2px solid var(--border-light)',
-                borderTop: '2px solid var(--blue-primary)',
+                width: 22, height: 22,
+                border: '2px solid var(--blue-100)',
+                borderTop: '2px solid var(--primary)',
                 borderRadius: '50%',
                 animation: 'spin 0.8s linear infinite',
               }} />
-              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Writing…</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Writing…</span>
             </div>
           )}
           <textarea
@@ -136,41 +109,50 @@ export default function CoverLetterModal({ job, cvText, onClose }) {
             placeholder="Your cover letter will appear here…"
             style={{
               width: '100%', resize: 'vertical',
-              padding: '14px 16px', borderRadius: 'var(--radius-sm)',
-              fontSize: 13, lineHeight: 1.75,
-              color: 'var(--text-primary)',
-              background: '#FAFBFD',
-              border: '1px solid var(--border-light)',
+              padding: '14px 16px',
+              borderRadius: 'var(--r-md)',
+              fontSize: '0.88rem', lineHeight: 1.75,
+              color: 'var(--text-head)',
+              background: 'var(--gray-100)',
+              border: '1.5px solid var(--border)',
+              fontFamily: 'var(--font-body)',
               outline: 'none', boxSizing: 'border-box',
-              minHeight: 300,
+              minHeight: 280,
             }}
           />
         </div>
 
         {/* Actions */}
-        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
           <button
-            className="btn-secondary"
-            onClick={handleCopy}
-            disabled={!letter}
-            style={{
-              color: copied ? '#22c55e' : undefined,
-              opacity: letter ? 1 : 0.5,
+            className="btn btn-sm btn-outline-gray"
+            onClick={() => {
+              navigator.clipboard.writeText(letter)
+              setCopied(true)
+              setTimeout(() => setCopied(false), 2000)
             }}
+            disabled={!letter}
+            style={{ opacity: letter ? 1 : 0.5 }}
           >
             {copied ? 'Copied ✓' : 'Copy'}
           </button>
-
           <button
-            className="btn-secondary"
-            onClick={handleDownload}
+            className="btn btn-sm btn-outline-gray"
+            onClick={() => {
+              const blob = new Blob([letter], { type: 'text/plain' })
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href = url
+              a.download = `cover_letter_${job?.title?.replace(/[^a-z0-9]/gi, '_').toLowerCase() ?? 'job'}.txt`
+              a.click()
+              URL.revokeObjectURL(url)
+            }}
             disabled={!letter}
             style={{ opacity: letter ? 1 : 0.5 }}
           >
             Download .txt
           </button>
-
-          <button className="btn-primary" onClick={onClose}>
+          <button className="btn btn-sm btn-primary" onClick={onClose}>
             Done
           </button>
         </div>

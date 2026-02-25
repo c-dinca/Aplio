@@ -3,17 +3,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { ToastProvider } from './components/Toast'
-import Header    from './components/Header'
-import BottomNav from './components/BottomNav'
 import CvModal   from './components/CvModal'
 import AuthModal from './components/AuthModal'
 
-import HomePage   from './pages/HomePage'
-import TrackerPage from './pages/TrackerPage'
-import CvPage     from './pages/CvPage'
+import HomePage       from './pages/HomePage'
+import TrackerPage   from './pages/TrackerPage'
+import CvPage        from './pages/CvPage'
+import FavoritesPage from './pages/FavoritesPage'
 
 function AppInner() {
-  const { isLoggedIn, saveCv, loadCv, loading: authLoading } = useAuth()
+  const { isLoggedIn, saveCv, loadCv, loading: authLoading, user, logout } = useAuth()
 
   const [cvText,        setCvText]        = useState('')
   const [showCvModal,   setShowCvModal]   = useState(false)
@@ -41,7 +40,8 @@ function AppInner() {
     return (
       <div style={{
         height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'var(--bg-base)', color: 'var(--text-secondary)', fontSize: 14,
+        background: 'var(--bg)', color: 'var(--text-muted)', fontSize: 14,
+        fontFamily: 'var(--font-body)',
       }}>
         Loading…
       </div>
@@ -50,21 +50,35 @@ function AppInner() {
 
   return (
     <BrowserRouter>
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg-base)' }}>
-        <Header
-          onEditCv={() => setShowCvModal(true)}
-          onLogin={() => setShowAuthModal(true)}
-        />
-
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)' }}>
         <main style={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
           <Routes>
-            <Route path="/"        element={<HomePage    cvText={cvText} />} />
+            <Route path="/" element={
+              <HomePage
+                cvText={cvText}
+                onEditCv={() => setShowCvModal(true)}
+                onLogin={() => setShowAuthModal(true)}
+                isLoggedIn={isLoggedIn}
+                user={user}
+                onLogout={logout}
+              />
+            } />
             <Route path="/tracker" element={<TrackerPage />} />
-            <Route path="/cv"      element={<CvPage      cvText={cvText} setShowCvModal={setShowCvModal} />} />
+            <Route path="/cv" element={<CvPage cvText={cvText} setShowCvModal={setShowCvModal} />} />
+            <Route path="/favorites" element={<FavoritesPage cvText={cvText} />} />
+            <Route path="/applied" element={
+              <HomePage
+                view="applied"
+                cvText={cvText}
+                onEditCv={() => setShowCvModal(true)}
+                onLogin={() => setShowAuthModal(true)}
+                isLoggedIn={isLoggedIn}
+                user={user}
+                onLogout={logout}
+              />
+            } />
           </Routes>
         </main>
-
-        <BottomNav />
 
         {showCvModal && (
           <CvModal
